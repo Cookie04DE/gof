@@ -327,6 +327,7 @@ outer:
 				if err != nil {
 					panic(err)
 				}
+				escaped = false
 				continue
 			}
 			expressionBuilder := new(strings.Builder)
@@ -344,6 +345,14 @@ outer:
 				}
 				expressionBuilder.WriteRune(r)
 			}
+		}
+		if r == '}' {
+			_, err = c.out.WriteRune('}')
+			if err != nil {
+				panic(err)
+			}
+			escaped = false
+			continue
 		}
 		if escaped {
 			_, err = c.out.WriteRune('\\')
