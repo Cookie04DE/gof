@@ -317,7 +317,10 @@ outer:
 				panic(err)
 			}
 			for _, expression := range expressions {
-				c.out.WriteString(", " + expression)
+				_, err = c.out.WriteString(", " + expression)
+				if err != nil {
+					panic(err)
+				}
 			}
 			return c.processCode
 		}
@@ -343,7 +346,10 @@ outer:
 					expressions = append(expressions, expressionBuilder.String())
 					continue outer
 				}
-				expressionBuilder.WriteRune(r)
+				_, err = expressionBuilder.WriteRune(r)
+				if err != nil {
+					panic(err)
+				}
 			}
 		}
 		if r == '}' {
